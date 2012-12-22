@@ -13,38 +13,9 @@
         'while', 'yield'
     ];
 
-    var backspace = 8;
-    var singleComplete = {
-        items: ko.observableArray(keywords)
-    };
-
-    var multiComplete = {
-        completed: ko.observableArray(),
-        items: ko.observableArray(keywords),
-        select: function (item) {
-            multiComplete.completed.push(item);
-            return '';
-        },
-        value: ko.observable(''),
-        keyDown: function (date, event) {
-            if (multiComplete.value().length === 0 && event.which === backspace) {
-                multiComplete.completed.pop();
-            }
-            return true;
-        },
-        focused: ko.observable(true),
-        focusInput: function () {
-            multiComplete.focused(true);
-        },
-        removeItem: function (index) {
-            multiComplete.completed.splice(index, 1);
-        }
-    };
-
     var viewModel = {
         keywords: keywords,
-        singleComplete: singleComplete,
-        multiComplete: multiComplete
+        multiComplete: new examples.MultiCompleteModel(keywords)
     };
     ko.applyBindings(viewModel, document.getElementById('application'));
 }());
